@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-PROGNAME=$(basename $0)
+PROGNAME=$(basename "$0")
 VERSION="0.1"
 
 usage() {
     echo "Usage: $PROGNAME [OPTIONS] APP"
-    echo "  This script is ~."
+    echo "  This script starts a specified app if it's not open yet."
     echo
     echo "Options:"
     echo "  -h, --help"
@@ -31,7 +31,7 @@ do
             break
             ;;
         -*)
-            echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
+            echo "$PROGNAME: illegal option -- '$(echo "$1" | sed 's/^-*//')'" 1>&2
             exit 1
             ;;
         *)
@@ -43,14 +43,14 @@ do
     esac
 done
 
-if [ -z $param ]; then
+if [ -z "$param" ]; then
     echo "$PROGNAME: too few arguments" 1>&2
     echo "Try '$PROGNAME --help' for more information." 1>&2
     exit 1
 fi
 
-if [[ $(ps ax | grep $param | grep -v grep | grep -v $PROGNAME | wc -l) -eq 0 ]]; then
-    open $param
+if [[ $(ps ax | grep "$param" | grep -v grep | grep -c -v "$PROGNAME") -eq 0 ]]; then
+    open "$param"
     exit 0
 fi
 
